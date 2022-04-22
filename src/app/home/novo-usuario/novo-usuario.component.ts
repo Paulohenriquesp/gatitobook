@@ -4,6 +4,7 @@ import { minusculoValidator } from './minusculo.validator';
 import { NovoUsuario } from './novo-usuario';
 import { NovoUsuarioService } from './novo-usuario.service';
 import { UsuarioExisteService } from './usuario-existe.service';
+import { usuarioSenhaIguaisValidator } from './usuario-senha-validators';
 
 @Component({
   selector: 'app-novo-usuario',
@@ -25,8 +26,12 @@ export class NovoUsuarioComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', [Validators.required, Validators.minLength(4)]],
       userName: ['', [minusculoValidator], [this.usuarioExistenteService.usuarioJaExiste()]],
-      password: ['']
-    })
+      password: [''],
+    },
+    {
+      validators: [usuarioSenhaIguaisValidator]
+    }
+    )
   }
 
   cadastrar() {
