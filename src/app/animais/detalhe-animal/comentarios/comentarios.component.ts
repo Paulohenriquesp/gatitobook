@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { Comentarios } from './comentario';
+import { ComentariosService } from './comentarios.service';
 
 @Component({
   selector: 'app-comentarios',
@@ -8,11 +11,36 @@ import { Comentarios } from './comentario';
   styleUrls: ['./comentarios.component.css']
 })
 export class ComentariosComponent implements OnInit {
-  comentarios$!: Observable<Comentarios>
 
-  constructor() { }
+  @Input() id!:number;
+  comentarios$!: Observable<Comentarios>
+  comentarioForm!: FormGroup 
+
+  constructor(
+    private comentarioService: ComentariosService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.comentarios$ = this.comentarioService.buscaComentario(this.id);
+    this.comentarioForm = this.formBuilder.group({
+      comentario: ['', Validators.maxLength(300)],
+    })
   }
+
+
+  gravar(): void {
+    const comentario = this.comentarioForm.get('comentario')?.value?? '';
+    this.comentarios$ = this.comentarioService.incluiComentario(
+      this.id, 
+      comentario
+      ).pipe(switchMap(() => this.comentarioService.buscaComentario(this.id)),
+      tap(() => {
+        this.comentarioForm.reset();
+        alert('Salvo Comentário') 
+      })
+      );
+  }
+
 
 }
