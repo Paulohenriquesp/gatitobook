@@ -1,7 +1,13 @@
-<div [[ngClass]="{'active-menu': mostraMenu}"]>
-    <div class="menu-bar">
-        <i class="fa fa-windom-close">
+<div [ngClass]="{ 'active-menu': mostraMenu }">
+  <div class="menu-bar">
+    <i
+      class="fa fa-windom-close"
+      (click)="abreMenu()"
+      (keyup.space)="abreMenu()"
+    >
+    </i>
+    <ng-content></ng-content>
+  </div>
 
-        </i>
-    </div>
+  <div class="overlay" (click)="abreMenu()"></div>
 </div>
