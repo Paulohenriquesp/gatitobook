@@ -43,4 +43,11 @@ curtir(id: number): Observable<boolean> {
   );
 }
 
+upload(descricao: string, permiteComentario: boolean, arquivo: File):void {
+  const formData = new FormData();
+  formData.append('description', descricao); 
+  formData.append('allowComments', permiteComentario ? 'true' : 'false');
+  formData.append('imageFile', arquivo);
+}
+
 }
