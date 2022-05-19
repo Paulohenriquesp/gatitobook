@@ -34,7 +34,7 @@ export class NovoAnimalComponent implements OnInit {
     const allowComments =
       this.formularioAnimal.get('allowComments')?.value ?? false;
     const description = this.formularioAnimal.get('description')?.value ?? '';
-    
+
     this.animaisService
       .upload(description, allowComments, this.file)
       .pipe(finalize(() => this.router.navigate(['animais'])))
@@ -50,10 +50,10 @@ export class NovoAnimalComponent implements OnInit {
   }
 
   gravaArquivo(arquivo: any): void {
-    const [file] = arquivo?.files[0];
+    const [file] = arquivo?.files;
     this.file = file;
     const reader = new FileReader();
-    reader.onload = (event: any) => (this.preview = event.targer.result);
+    reader.onload = (event: any) => (this.preview = event.target.result);
     reader.readAsDataURL(file);
   }
 }

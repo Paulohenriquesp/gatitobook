@@ -9,11 +9,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',  
     redirectTo: 'home'
-  },
-  {
-    path: 'novo',
-    component: NovoAnimalComponent
-  },
+  },  
   {
     path: 'home',
     loadChildren: ()=> import('./home/home.module').then((m) => m.HomeModule),
